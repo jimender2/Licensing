@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import json
-import urllib2
+from urllib.request import urlopen
 
 
 # Grab local license info
@@ -11,8 +11,9 @@ with open('license') as json_file:
     clientID = data["id"]
 
 # Grab license info from web
-license_server_url = ""
-for line in urllib2.urlopen(license_server_url):
+license_server_url = "https://raw.githubusercontent.com/jimender2/Licensing/master/licenses"
+valid = False
+for line in urlopen(license_server_url):
     data = json.loads(line)
     if clientLicense == data["license"]:
         if clientID == data["id"]:
@@ -22,7 +23,7 @@ for line in urllib2.urlopen(license_server_url):
 
 if valid:
     print("valid license")
-    start_program()
+    #start_program()
 
 else:
     print("invalid license")
